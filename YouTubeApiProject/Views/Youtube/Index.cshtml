@@ -1,0 +1,50 @@
+﻿@model List<YouTubeApiProject.Models.YouTubeVideoModel>
+
+<h2 style="text-align: center;">Search for Videos</h2>
+
+<!-- Search Form -->
+<form asp-action="Search" style="text-align: center;" method="post">
+    <input style="margin-bottom: 20px;" type="text" name="query" placeholder="Search for videos..." required />
+    <button type="submit" class="btn btn-light">Search</button>
+    <br >
+    <label  for="duration">Duration:</label>
+    <select name="duration"> 
+        <option value="any">Any</option>
+        <option value="short">Short (<4 min)</option>
+        <option value="medium">Medium (4-20 min)</option>
+        <option value="long">Long (>20 min)</option>
+    </select> </br>
+
+    <label for="uploadDate">Upload Date:</label>
+    <select name="uploadDate">
+        <option value="any">Any</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+    </select>
+
+   
+</form>
+
+<!-- Show Results on the Same Page -->
+@if (Model != null && Model.Any())
+{
+    <div style="text-align: center; margin-top: 20px;">
+        @foreach (var video in Model)
+        {
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block; width: 300px;">
+                <h3>@video.Title</h3>
+                <p>@video.Description</p>
+                <img src="@video.ThumbnailUrl" alt="@video.Title" style="width: 100%;" />
+                <br />
+                <a href="@video.VideoUrl" target="_blank">
+                    <button type="button" class="btn btn-primary">Watch</button>
+                </a>
+            </div>
+        }
+    </div>
+}
+else if (Model != null)
+{
+    <p style="text-align: center; color: red;">No results found. Try a different search.</p>
+}
